@@ -1,23 +1,23 @@
 import streamlit as st
-from ultralytics import YOLO
 from PIL import Image
 import numpy as np
+from ultralytics import YOLO
 
-st.title("Object Detection and Tracking")
+st.title("Object Detection")
 
 model = YOLO("yolov8n.pt")
 
 uploaded_file = st.file_uploader(
-    "Upload an image",
+    "Upload Image",
     type=["jpg", "jpeg", "png"]
 )
 
-if uploaded_file:
+if uploaded_file is not None:
     image = Image.open(uploaded_file)
-    img_array = np.array(image)
+    img = np.array(image)
 
-    results = model(img_array)
+    results = model(img)
 
-    plotted = results[0].plot()
+    result_img = results[0].plot()
 
-    st.image(plotted, caption="Detected Objects")
+    st.image(result_img, caption="Detected Objects")
